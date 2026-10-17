@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { CartProvider } from "@/context/CartContext";
+import { CartDrawer } from "@/components/CartDrawer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,7 +23,10 @@ export default function RootLayout({
   return (
     <html lang="uz" className="scroll-smooth">
       <body className="min-h-screen bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-white">
-        {children}
+        <CartProvider>
+          {children}
+          <CartDrawer />
+        </CartProvider>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Icons } from "./Icons";
 
 export const Hero: React.FC = () => {
@@ -39,13 +40,13 @@ export const Hero: React.FC = () => {
                 <Icons.ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
 
-              <a
-                href="#muddatli-tolov"
+              <Link
+                href="/muddatli-tolov"
                 className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold text-base transition-all flex items-center justify-center gap-2"
               >
                 <Icons.CreditCard className="w-5 h-5 text-emerald-400" />
                 <span>Nasiyaga xarid qilish</span>
-              </a>
+              </Link>
             </div>
 
             {/* Stats row */}

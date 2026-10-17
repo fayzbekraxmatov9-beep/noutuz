@@ -1,31 +1,24 @@
 "use client";
 
 import React, { useState } from "react";
-import { Laptop } from "@/types";
+import { useCart } from "@/context/CartContext";
 import { Icons } from "./Icons";
 
-export interface CartItem {
-  laptop: Laptop;
-  quantity: number;
-}
-
 interface CartDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-  items: CartItem[];
-  onUpdateQuantity: (id: string, delta: number) => void;
-  onRemoveItem: (id: string) => void;
-  onClearCart: () => void;
+  onSelectLaptop?: (laptop: any) => void;
 }
 
-export const CartDrawer: React.FC<CartDrawerProps> = ({
-  isOpen,
-  onClose,
-  items,
-  onUpdateQuantity,
-  onRemoveItem,
-  onClearCart,
-}) => {
+export const CartDrawer: React.FC<CartDrawerProps> = () => {
+  const {
+    cartItems,
+    isCartOpen,
+    setIsCartOpen,
+    updateQuantity,
+    removeItem,
+    clearCart,
+    totalPrice,
+  } = useCart();
+
   const [checkoutStep, setCheckoutStep] = useState<"cart" | "form" | "success">("cart");
   const [clientInfo, setClientInfo] = useState({
     name: "",
@@ -34,17 +27,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     paymentType: "payme",
   });
 
-  if (!isOpen) return null;
-
-  const totalPrice = items.reduce(
-    (sum, item) => sum + item.laptop.price * item.quantity,
-    0
-  );
+  if (!isCartOpen) return null;
 
   const handleOrder = (e: React.FormEvent) => {
     e.preventDefault();
     setCheckoutStep("success");
-    onClearCart();
+    clearCart();
   };
 
   return (
@@ -56,10 +44,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           <div className="flex items-center justify-between pb-4 border-b border-slate-800">
             <div className="flex items-center gap-2">
               <Icons.ShoppingBag className="w-5 h-5 text-cyan-400" />
-              <h2 className="text-lg font-bold text-white">Savatcha ({items.length})</h2>
+              <h2 className="text-lg font-bold text-white">Savatcha ({cartItems.length})</h2>
             </div>
             <button
-              onClick={onClose}
+              onClick={() => setIsCartOpen(false)}
               className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
             >
               <Icons.X className="w-5 h-5" />
@@ -80,7 +68,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 <button
                   onClick={() => {
                     setCheckoutStep("cart");
-                    onClose();
+                    setIsCartOpen(false);
                   }}
                   className="px-6 py-2.5 bg-cyan-500 text-slate-950 font-bold text-xs rounded-xl"
                 >
@@ -156,13 +144,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   </button>
                   <button
                     type="submit"
-                    className="w-2/3 py-2.5 rounded-xl bg-linear-to-r from-cyan-500 to-blue-600 font-bold text-xs text-white"
+                    className="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 font-bold text-xs text-white"
                   >
                     Buyurtmani tasdiqlash
                   </button>
                 </div>
               </form>
-            ) : items.length === 0 ? (
+            ) : cartItems.length === 0 ? (
               <div className="text-center py-16 space-y-3">
                 <Icons.ShoppingBag className="w-12 h-12 text-slate-600 mx-auto" />
                 <p className="text-sm text-slate-400">Savatchangiz bo&apos;sh</p>
@@ -170,7 +158,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </div>
             ) : (
               <div className="space-y-4">
-                {items.map(({ laptop, quantity }) => (
+                {cartItems.map(({ laptop, quantity }) => (
                   <div
                     key={laptop.id}
                     className="flex gap-3 p-3 bg-slate-950/80 rounded-xl border border-slate-800 items-center"
@@ -187,14 +175,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       
                       <div className="flex items-center gap-2 mt-2">
                         <button
-                          onClick={() => onUpdateQuantity(laptop.id, -1)}
+                          onClick={() => updateQuantity(laptop.id, -1)}
                           className="w-5 h-5 rounded bg-slate-800 text-slate-300 flex items-center justify-center text-xs hover:bg-slate-700"
                         >
                           -
                         </button>
                         <span className="text-xs font-bold text-white">{quantity}</span>
                         <button
-                          onClick={() => onUpdateQuantity(laptop.id, 1)}
+                          onClick={() => updateQuantity(laptop.id, 1)}
                           className="w-5 h-5 rounded bg-slate-800 text-slate-300 flex items-center justify-center text-xs hover:bg-slate-700"
                         >
                           +
@@ -203,7 +191,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     </div>
 
                     <button
-                      onClick={() => onRemoveItem(laptop.id)}
+                      onClick={() => removeItem(laptop.id)}
                       className="p-1.5 text-slate-500 hover:text-rose-400"
                     >
                       <Icons.X className="w-4 h-4" />
@@ -215,7 +203,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           </div>
 
           {/* Footer of Drawer */}
-          {checkoutStep === "cart" && items.length > 0 && (
+          {checkoutStep === "cart" && cartItems.length > 0 && (
             <div className="pt-4 border-t border-slate-800 space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">Jami summa:</span>
@@ -227,7 +215,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </p>
               <button
                 onClick={() => setCheckoutStep("form")}
-                className="w-full py-3 rounded-xl bg-linear-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 hover:from-cyan-400 transition-all"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 hover:from-cyan-400 transition-all"
               >
                 Buyurtma rasmiylashtirish &rarr;
               </button>

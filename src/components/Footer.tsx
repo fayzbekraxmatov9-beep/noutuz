@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Icons } from "./Icons";
 
 export const Footer: React.FC = () => {
@@ -50,11 +51,11 @@ export const Footer: React.FC = () => {
               Xizmatlar
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm">
-              <li><a href="#muddatli-tolov" className="hover:text-cyan-400 transition-colors">0% Muddatli to&apos;lov</a></li>
-              <li><a href="#afzalliklar" className="hover:text-cyan-400 transition-colors">Rasmiy kafolat</a></li>
-              <li><a href="#afzalliklar" className="hover:text-cyan-400 transition-colors">Yetkazib berish</a></li>
-              <li><a href="#aloqa" className="hover:text-cyan-400 transition-colors">Dasturiy xizmatlar</a></li>
-              <li><a href="#aloqa" className="hover:text-cyan-400 transition-colors">Trade-in (Eskisini yangilash)</a></li>
+              <li><Link href="/muddatli-tolov" className="hover:text-cyan-400 transition-colors">0% Muddatli to&apos;lov</Link></li>
+              <li><Link href="/afzalliklar" className="hover:text-cyan-400 transition-colors">Rasmiy kafolat</Link></li>
+              <li><Link href="/afzalliklar" className="hover:text-cyan-400 transition-colors">Yetkazib berish</Link></li>
+              <li><Link href="/aloqa" className="hover:text-cyan-400 transition-colors">Dasturiy xizmatlar</Link></li>
+              <li><Link href="/aloqa" className="hover:text-cyan-400 transition-colors">Trade-in (Eskisini yangilash)</Link></li>
             </ul>
           </div>
 
