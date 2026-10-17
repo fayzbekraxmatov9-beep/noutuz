@@ -1,0 +1,245 @@
+import { Laptop, Review, ServiceFeature } from "@/types";
+
+export const LAPTOPS: Laptop[] = [
+  {
+    id: "macbook-pro-16-m3-max",
+    title: "Apple MacBook Pro 16\" (M3 Max, Space Black)",
+    brand: "Apple",
+    category: "creative",
+    price: 3499,
+    oldPrice: 3899,
+    rating: 4.9,
+    reviewsCount: 42,
+    badge: "Top Tanlov",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
+    inStock: true,
+    isPopular: true,
+    specs: {
+      cpu: "Apple M3 Max (16-core)",
+      ram: "36 GB Unified Memory",
+      storage: "1 TB NVMe SSD",
+      gpu: "40-core GPU",
+      display: "16.2\" Liquid Retina XDR 120Hz",
+      battery: "22 soatgacha",
+      weight: "2.14 kg"
+    }
+  },
+  {
+    id: "asus-rog-strix-scar-18",
+    title: "ASUS ROG Strix SCAR 18 (2024)",
+    brand: "ASUS",
+    category: "gaming",
+    price: 3290,
+    oldPrice: 3500,
+    rating: 4.8,
+    reviewsCount: 38,
+    badge: "O'yin Uchun Monster",
+    image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80",
+    inStock: true,
+    isPopular: true,
+    specs: {
+      cpu: "Intel Core i9-14900HX",
+      ram: "32 GB DDR5 5600MHz",
+      storage: "2 TB PCIe 4.0 SSD",
+      gpu: "NVIDIA GeForce RTX 4090 16GB",
+      display: "18\" QHD+ 240Hz ROG Nebula HDR",
+      battery: "90 Wh",
+      weight: "3.10 kg"
+    }
+  },
+  {
+    id: "lenovo-legion-pro-7i",
+    title: "Lenovo Legion Pro 7i Gen 9",
+    brand: "Lenovo",
+    category: "gaming",
+    price: 2450,
+    oldPrice: 2700,
+    rating: 4.9,
+    reviewsCount: 56,
+    badge: "Eng Ko'p Sotilgan",
+    image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80",
+    inStock: true,
+    isPopular: true,
+    specs: {
+      cpu: "Intel Core i9-14900HX",
+      ram: "32 GB DDR5 5600MHz",
+      storage: "1 TB Gen4 SSD",
+      gpu: "NVIDIA GeForce RTX 4080 12GB",
+      display: "16\" WQXGA 240Hz 500 nits",
+      battery: "99.9 Wh",
+      weight: "2.62 kg"
+    }
+  },
+  {
+    id: "dell-xps-14-oled",
+    title: "Dell XPS 14 9440 OLED (2024)",
+    brand: "Dell",
+    category: "ultrabook",
+    price: 1999,
+    oldPrice: 2200,
+    rating: 4.7,
+    reviewsCount: 29,
+    badge: "Premium Dizayn",
+    image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80",
+    inStock: true,
+    isPopular: false,
+    isNewArrival: true,
+    specs: {
+      cpu: "Intel Core Ultra 7 155H AI",
+      ram: "32 GB LPDDR5X",
+      storage: "1 TB M.2 NVMe SSD",
+      gpu: "NVIDIA GeForce RTX 4050 6GB",
+      display: "14.5\" 3.2K OLED 120Hz Touch",
+      battery: "18 soatgacha",
+      weight: "1.68 kg"
+    }
+  },
+  {
+    id: "macbook-air-15-m3",
+    title: "Apple MacBook Air 15\" (M3, Starlight)",
+    brand: "Apple",
+    category: "ultrabook",
+    price: 1399,
+    oldPrice: 1550,
+    rating: 4.9,
+    reviewsCount: 74,
+    badge: "Yengil va Kuchli",
+    image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=80",
+    inStock: true,
+    isPopular: true,
+    specs: {
+      cpu: "Apple M3 (8-core)",
+      ram: "16 GB Unified Memory",
+      storage: "512 GB SSD",
+      gpu: "10-core GPU",
+      display: "15.3\" Liquid Retina IPS",
+      battery: "18 soatgacha",
+      weight: "1.51 kg"
+    }
+  },
+  {
+    id: "asus-zenbook-duo-oled",
+    title: "ASUS Zenbook Duo OLED UX8406",
+    brand: "ASUS",
+    category: "creative",
+    price: 1850,
+    oldPrice: 2050,
+    rating: 4.8,
+    reviewsCount: 31,
+    badge: "2 ta Ekran",
+    image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=800&q=80",
+    inStock: true,
+    isNewArrival: true,
+    specs: {
+      cpu: "Intel Core Ultra 9 185H",
+      ram: "32 GB LPDDR5x",
+      storage: "1 TB PCIe 4.0 SSD",
+      gpu: "Intel Arc Graphics",
+      display: "2x 14\" 3K 120Hz OLED Touch",
+      battery: "75 Wh",
+      weight: "1.65 kg"
+    }
+  },
+  {
+    id: "hp-victus-15-gaming",
+    title: "HP Victus 15 (Mica Silver)",
+    brand: "HP",
+    category: "gaming",
+    price: 799,
+    oldPrice: 890,
+    rating: 4.6,
+    reviewsCount: 65,
+    badge: "Hamyonbop Gaming",
+    image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=800&q=80",
+    inStock: true,
+    isPopular: true,
+    specs: {
+      cpu: "AMD Ryzen 5 7535HS",
+      ram: "16 GB DDR5 4800MHz",
+      storage: "512 GB PCIe SSD",
+      gpu: "NVIDIA GeForce RTX 2050 4GB",
+      display: "15.6\" FHD 144Hz IPS",
+      battery: "52.5 Wh",
+      weight: "2.29 kg"
+    }
+  },
+  {
+    id: "lenovo-thinkpad-x1-carbon-gen12",
+    title: "Lenovo ThinkPad X1 Carbon Gen 12",
+    brand: "Lenovo",
+    category: "office",
+    price: 1750,
+    oldPrice: 1950,
+    rating: 4.9,
+    reviewsCount: 48,
+    badge: "Biznes Standart",
+    image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80",
+    inStock: true,
+    specs: {
+      cpu: "Intel Core Ultra 7 155U",
+      ram: "16 GB LPDDR5X",
+      storage: "512 GB PCIe 4.0 SSD",
+      gpu: "Intel Graphics",
+      display: "14\" 2.8K OLED 120Hz Anti-Glare",
+      battery: "16 soatgacha",
+      weight: "1.09 kg"
+    }
+  }
+];
+
+export const REVIEWS: Review[] = [
+  {
+    id: "1",
+    name: "Sanjarbek Rahimjonov",
+    role: "Senior Frontend Engineer",
+    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
+    rating: 5,
+    comment: "MacBook Pro 16 M3 Max oldim. Yetkazib berish juda tez bo'ldi, o'sha kuniyoq Toshkent bo'ylab topshirishdi. Narxlar bozorga nisbatan ancha qulay, kafolati rasmiy berildi. Rahmat!",
+    laptopBought: "MacBook Pro 16\" (M3 Max)"
+  },
+  {
+    id: "2",
+    name: "Nilufar Yusupova",
+    role: "UI/UX & Product Designer",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+    rating: 5,
+    comment: "ASUS Zenbook Duo OLED xarid qildim. Ikki ekranli ishlash dizayn sohasida shunchaki vau effekti berdi. Maslahat bergan xodimlaringizga alohida tashakkur, o'z kasbining ustalari ekan.",
+    laptopBought: "ASUS Zenbook Duo OLED"
+  },
+  {
+    id: "3",
+    name: "Akmal Qodirov",
+    role: "3D Modeler & Game Dev",
+    avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80",
+    rating: 5,
+    comment: "Lenovo Legion Pro 7i RTX 4080 bilan renderlar shunchaki uchadi! Noutuzdan muddatli to'lovga (halol nasiya) hech qanday foizlarsiz rasmiylashtirdim. Hamma narsa shaffof va oson.",
+    laptopBought: "Lenovo Legion Pro 7i Gen 9"
+  }
+];
+
+export const FEATURES: ServiceFeature[] = [
+  {
+    id: "f1",
+    title: "1-2 Yillik Rasmiy Kafolat",
+    description: "Barcha noutbuklarimiz 100% original va rasmiy servis kafolatiga ega.",
+    icon: "ShieldCheck"
+  },
+  {
+    id: "f2",
+    title: "Butun O'zbekiston Bo'ylab Bepul Yetkazish",
+    description: "Toshkentda 2 soatda, viloyatlarga 24 soat ichida eshigingizgacha xavfsiz yetkazamiz.",
+    icon: "Truck"
+  },
+  {
+    id: "f3",
+    title: "Halol Muddatli To'lov (0% Foiz)",
+    description: "Ortiqcha qog'ozbozliksiz, pasport orqali 3, 6, 12 oyga bo'lib to'lash imkoniyati.",
+    icon: "CreditCard"
+  },
+  {
+    id: "f4",
+    title: "Professional Dasturiy Sozlash",
+    description: "Windows, macOS, kerakli drayverlar va dasturlarni bepul o'rnatib, sozlab beramiz.",
+    icon: "Wrench"
+  }
+];
