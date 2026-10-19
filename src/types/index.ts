@@ -31,6 +31,7 @@ export interface Review {
   rating: number;
   comment: string;
   laptopBought: string;
+  createdAt?: string;
 }
 
 export interface ServiceFeature {
@@ -38,4 +39,50 @@ export interface ServiceFeature {
   title: string;
   description: string;
   icon: string;
+}
+
+export interface OrderItem {
+  laptopId: string;
+  laptopTitle: string;
+  price: number;
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  customerName: string;
+  phone: string;
+  address: string;
+  paymentType: "cash" | "payme" | "click" | "installment";
+  items: OrderItem[];
+  totalPrice: number;
+  status: "pending" | "confirmed" | "delivered" | "cancelled";
+  createdAt: string;
+}
+
+export interface InstallmentApplication {
+  id: string;
+  customerName: string;
+  phone: string;
+  provider: string; // Uzum Nasiya, Iman Pay, etc.
+  laptopId?: string;
+  laptopTitle?: string;
+  amount: number;
+  months: number;
+  initialPayment: number;
+  monthlyPayment: number;
+  status: "pending" | "approved" | "rejected";
+  createdAt: string;
+}
+
+export interface ConsultationRequest {
+  id: string;
+  name: string;
+  phone: string;
+  category?: string;
+  budget?: string;
+  subject?: string;
+  message?: string;
+  status: "new" | "contacted" | "closed";
+  createdAt: string;
 }

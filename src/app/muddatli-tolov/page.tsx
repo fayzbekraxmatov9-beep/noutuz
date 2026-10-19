@@ -66,13 +66,43 @@ export default function NasiyaPage() {
     selectedPartner: "Uzum Nasiya",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
+
   const initialPayment = (price * initialPaymentPercent) / 100;
   const remainingAmount = price - initialPayment;
   const monthlyPayment = Math.round(remainingAmount / months);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setFormError("");
+
+    try {
+      const res = await fetch("/api/installments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          selectedPartner: formData.selectedPartner,
+          amount: price,
+          months,
+          initialPayment,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Ariza yuborishda xatolik yuz berdi");
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      setFormError(err.message || "Xatolik yuz berdi");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -344,12 +374,19 @@ export default function NasiyaPage() {
                   </select>
                 </div>
 
+                {formError && (
+                  <p className="text-xs text-rose-400 bg-rose-500/10 p-2.5 rounded-lg border border-rose-500/20">
+                    {formError}
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 hover:from-emerald-400 text-white font-bold text-sm shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 hover:from-emerald-400 text-white font-bold text-sm shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   <Icons.CreditCard className="w-5 h-5" />
-                  <span>Arizani yuborish &rarr;</span>
+                  <span>{isSubmitting ? "Yuborilmoqda..." : "Arizani yuborish \u2192"}</span>
                 </button>
               </form>
             )}

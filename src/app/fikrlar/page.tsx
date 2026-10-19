@@ -56,25 +56,44 @@ export default function FikrlarPage() {
     ? reviewsList
     : reviewsList.filter((r) => r.rating === filterRating);
 
-  const handleAddReview = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newReview: Review = {
-      id: Date.now().toString(),
-      name: formData.name,
-      role: formData.role || "Mijoz",
-      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
-      rating: Number(formData.rating),
-      comment: formData.comment,
-      laptopBought: formData.laptopBought || "Noutbuk xaridi",
-    };
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reviewError, setReviewError] = useState("");
 
-    setReviewsList([newReview, ...reviewsList]);
-    setSubmitted(true);
-    setTimeout(() => {
-      setShowModal(false);
-      setSubmitted(false);
-      setFormData({ name: "", role: "", rating: 5, laptopBought: "", comment: "" });
-    }, 1500);
+  const handleAddReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setReviewError("");
+
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          role: formData.role,
+          rating: Number(formData.rating),
+          laptopBought: formData.laptopBought,
+          comment: formData.comment,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Fikrni yuborishda xatolik yuz berdi");
+      }
+
+      setReviewsList([data.data, ...reviewsList]);
+      setSubmitted(true);
+      setTimeout(() => {
+        setShowModal(false);
+        setSubmitted(false);
+        setFormData({ name: "", role: "", rating: 5, laptopBought: "", comment: "" });
+      }, 1500);
+    } catch (err: any) {
+      setReviewError(err.message || "Xatolik yuz berdi");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -289,11 +308,18 @@ export default function FikrlarPage() {
                   />
                 </div>
 
+                {reviewError && (
+                  <p className="text-xs text-rose-400 bg-rose-500/10 p-2.5 rounded-lg border border-rose-500/20">
+                    {reviewError}
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-white font-bold text-sm shadow-lg shadow-cyan-500/20"
+                  disabled={isSubmitting}
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 disabled:opacity-50"
                 >
-                  Fikrni chop etish
+                  {isSubmitting ? "Chop etilmoqda..." : "Fikrni chop etish"}
                 </button>
               </form>
             )}

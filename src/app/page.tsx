@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -64,7 +65,7 @@ export default function Home() {
           <div className="text-center mt-10">
             <Link
               href="/katalog"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 text-white font-bold text-sm shadow-xl shadow-cyan-500/20 transition-all group"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-linear-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 text-white font-bold text-sm shadow-xl shadow-cyan-500/20 transition-all group"
             >
               <span>To&apos;liq Katalog Sahifasini Ochish ({LAPTOPS.length}+ modellar)</span>
               <Icons.ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

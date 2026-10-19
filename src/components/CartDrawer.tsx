@@ -27,12 +27,41 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
     paymentType: "payme",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderError, setOrderError] = useState("");
+
   if (!isCartOpen) return null;
 
-  const handleOrder = (e: React.FormEvent) => {
+  const handleOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    setCheckoutStep("success");
-    clearCart();
+    setIsSubmitting(true);
+    setOrderError("");
+
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: clientInfo.name,
+          phone: clientInfo.phone,
+          address: clientInfo.address,
+          paymentType: clientInfo.paymentType,
+          items: cartItems,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Buyurtma berishda xatolik yuz berdi");
+      }
+
+      setCheckoutStep("success");
+      clearCart();
+    } catch (err: any) {
+      setOrderError(err.message || "Xatolik yuz berdi");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -134,19 +163,27 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
                   </div>
                 </div>
 
+                {orderError && (
+                  <p className="text-xs text-rose-400 bg-rose-500/10 p-2.5 rounded-lg border border-rose-500/20">
+                    {orderError}
+                  </p>
+                )}
+
                 <div className="pt-2 flex gap-2">
                   <button
                     type="button"
+                    disabled={isSubmitting}
                     onClick={() => setCheckoutStep("cart")}
-                    className="w-1/3 py-2.5 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300"
+                    className="w-1/3 py-2.5 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300 disabled:opacity-50"
                   >
                     Orqaga
                   </button>
                   <button
                     type="submit"
-                    className="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 font-bold text-xs text-white"
+                    disabled={isSubmitting}
+                    className="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 font-bold text-xs text-white disabled:opacity-50 flex items-center justify-center gap-1.5"
                   >
-                    Buyurtmani tasdiqlash
+                    {isSubmitting ? "Yuborilmoqda..." : "Buyurtmani tasdiqlash"}
                   </button>
                 </div>
               </form>
@@ -215,7 +252,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
               </p>
               <button
                 onClick={() => setCheckoutStep("form")}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 hover:from-cyan-400 transition-all"
+                className="w-full py-3 rounded-xl bg-linear-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 hover:from-cyan-400 transition-all"
               >
                 Buyurtma rasmiylashtirish &rarr;
               </button>

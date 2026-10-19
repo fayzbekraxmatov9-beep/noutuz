@@ -11,17 +11,39 @@ export const ContactAndConsultation: React.FC = () => {
     budget: "$1000 - $1500",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setFormError("");
+
+    try {
+      const res = await fetch("/api/consultations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Murojaatni yuborishda xatolik yuz berdi");
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      setFormError(err.message || "Xatolik yuz berdi");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section id="aloqa" className="py-20 bg-slate-900/60 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          
+
           {/* Left Info Column */}
           <div className="lg:col-span-5 space-y-6">
             <span className="text-xs uppercase tracking-widest text-cyan-400 font-bold">
@@ -53,8 +75,8 @@ export const ContactAndConsultation: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-xs text-slate-400">Telegram orqali murojaat</p>
-                  <a href="https://t.me/noutuz_admin" target="_blank" rel="noreferrer" className="text-base font-bold text-white hover:text-cyan-400 transition-colors">
-                    @noutuz_admin
+                  <a href="https://t.me/fayzbek_admin" target="_blank" rel="noreferrer" className="text-base font-bold text-white hover:text-cyan-400 transition-colors">
+                    @fayzbek_admin
                   </a>
                 </div>
               </div>
@@ -176,11 +198,18 @@ export const ContactAndConsultation: React.FC = () => {
                     Ma&apos;lumotlaringiz xavfsizligi kafolatlanadi va spam yuborilmaydi.
                   </p>
 
+                  {formError && (
+                    <p className="text-xs text-rose-400 bg-rose-500/10 p-2.5 rounded-lg border border-rose-500/20">
+                      {formError}
+                    </p>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full py-3.5 px-6 rounded-xl bg-linear-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-xl shadow-cyan-500/20 transition-all flex items-center justify-center gap-2"
+                    disabled={isSubmitting}
+                    className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-xl shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                   >
-                    <span>Maslahat olish &rarr;</span>
+                    <span>{isSubmitting ? "Yuborilmoqda..." : "Maslahat olish \u2192"}</span>
                   </button>
                 </form>
               )}

@@ -103,6 +103,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearch, showSearch = true }) =
             </Link>
             <Link href="/fikrlar" className="hover:text-cyan-400 transition-colors">Mijozlar fikri</Link>
             <Link href="/aloqa" className="hover:text-cyan-400 transition-colors">Aloqa</Link>
+            <Link
+              href="/admin"
+              className="text-xs px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20 font-mono font-bold"
+            >
+              Admin
+            </Link>
           </nav>
 
           {/* Actions */}
@@ -171,6 +177,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearch, showSearch = true }) =
             <Link href="/muddatli-tolov" onClick={() => setMobileMenuOpen(false)} className="px-2 py-1.5 text-slate-300 hover:text-cyan-400">0% Muddatli to&apos;lov</Link>
             <Link href="/fikrlar" onClick={() => setMobileMenuOpen(false)} className="px-2 py-1.5 text-slate-300 hover:text-cyan-400">Mijozlar fikrlari</Link>
             <Link href="/aloqa" onClick={() => setMobileMenuOpen(false)} className="px-2 py-1.5 text-slate-300 hover:text-cyan-400">Aloqa</Link>
+            <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="px-2 py-1.5 text-cyan-400 font-mono font-bold">⚙️ Admin Panel</Link>
             <a href="tel:+998712005544" className="mt-2 text-center py-2.5 rounded-xl bg-cyan-600 text-white font-semibold">
               +998 (71) 200-55-44 qo&apos;ng&apos;iroq qilish
             </a>

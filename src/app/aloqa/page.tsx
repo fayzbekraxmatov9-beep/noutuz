@@ -14,10 +14,32 @@ export default function AloqaPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [contactError, setContactError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setContactError("");
+
+    try {
+      const res = await fetch("/api/consultations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Xabarni yuborishda xatolik yuz berdi");
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      setContactError(err.message || "Xatolik yuz berdi");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -215,12 +237,19 @@ export default function AloqaPage() {
                       />
                     </div>
 
+                    {contactError && (
+                      <p className="text-xs text-rose-400 bg-rose-500/10 p-2.5 rounded-lg border border-rose-500/20">
+                        {contactError}
+                      </p>
+                    )}
+
                     <button
                       type="submit"
-                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 text-white font-bold text-sm shadow-xl shadow-cyan-500/20 transition-all flex items-center justify-center gap-2"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 text-white font-bold text-sm shadow-xl shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       <Icons.Send className="w-4 h-4" />
-                      <span>Xabarni Yuborish</span>
+                      <span>{isSubmitting ? "Yuborilmoqda..." : "Xabarni Yuborish"}</span>
                     </button>
                   </form>
                 )}
